@@ -1,0 +1,8 @@
+.pet-list {
+    background-color: var(--sand-tan);
+    color: var(--night-blue);
+}
+
+.pet-list ul {
+    list-style: square;
+}
