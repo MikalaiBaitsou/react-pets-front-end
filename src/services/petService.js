@@ -50,4 +50,20 @@ async function create(formData){
 
 }
 
-export { index, create }
+async function deletePet(petId){
+    try {
+        const response = await fetch(BASE_URL + `/${petId}`, {
+            method: 'DELETE'
+        })
+
+        const data = await response.json()
+        return data
+
+
+    } catch(err){
+        console.log(err)
+    }
+}
+
+
+export { index, create, deletePet }
