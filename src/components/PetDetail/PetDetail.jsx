@@ -1,26 +1,36 @@
-// As a user, I want to click a button to view the details of a single pet.
+import { useNavigate, useParams } from "react-router"
+import { Navigate } from "react-router"
+
 
 export default function PetDetail(props){
 
-    if(props.selectedPet === null){
-        return (
-            <section>
-            <h2>No Pet Selected</h2>
-            </section>
-        )
+    // null is the orignal value of selectedPet
+   
+    // petId is coming from the route
+    // <Route path='/pets/:petId' element={<PetDetail deletePet={deletePet} pets={pets}/>} />
+    const { petId } = useParams()
+    const navigate = useNavigate()
+
+    const selectedPet = props.pets.find((pet) => {
+        return pet._id === petId
+    })  
+
+    function handleDelete(){
+        props.deletePet(selectedPet._id)
+        navigate('/')
+      // navigate('/'); // navigate function is defined above
+      // and it is a custom hook from react-router
     }
 
     return (
         <section>
-            <h2>{props.selectedPet.name}</h2>
-            <span>Breed: {props.selectedPet.breed}</span>
+            <h2>{selectedPet.name}</h2>
+            <span>Breed: {selectedPet.breed}</span>
             <br />
-            <span>Age: {props.selectedPet.age}</span>
+            <span>Age: {selectedPet.age}</span>
             <br />
-            
-            <button onClick={() => props.deletePet(props.selectedPet._id)}>Delete</button>
+            <button onClick={handleDelete}>Delete</button>
             <br />
-            <button onClick={() => props.setSelectedPet(null)}>Close Details</button>
         </section>
     )
 }

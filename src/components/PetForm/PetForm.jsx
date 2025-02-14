@@ -2,6 +2,9 @@
 import { useState } from 'react'
 import './PetForm.css'
 
+
+import { useNavigate } from 'react-router'
+
 const initialState = {
     name: '',
     age: 0,
@@ -11,6 +14,8 @@ const initialState = {
 export default function PetForm(props) {
 
     const [formData, setFormData] = useState(initialState)
+
+    const navigate = useNavigate()
 
     function handleChange(e) {
 
@@ -28,6 +33,9 @@ export default function PetForm(props) {
         // express api
         props.createPet(formData)
         setFormData(initialState)
+
+        // navigate is from react-router, this is the function initialized from the hook on line 18
+        navigate('/')
     }
 
     return (

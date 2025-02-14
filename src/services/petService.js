@@ -41,6 +41,7 @@ async function create(formData){
             body: JSON.stringify(formData)
         })
 
+        // opening up the json (parse the json)
         const data = await response.json()
         return data
 
@@ -50,20 +51,24 @@ async function create(formData){
 
 }
 
+
+// What component has the information of the petId? In this case PetDetail
+// Where do we want to call this function? App (because thats where our pet state is) and after we delete we want to update
+// it to reflect the deletion
+
+// when do we want to call this function? When the user presses delete in the PetDetail function!
 async function deletePet(petId){
     try {
         const response = await fetch(BASE_URL + `/${petId}`, {
             method: 'DELETE'
         })
-
+        
         const data = await response.json()
         return data
-
 
     } catch(err){
         console.log(err)
     }
 }
-
 
 export { index, create, deletePet }

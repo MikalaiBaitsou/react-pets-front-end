@@ -1,17 +1,16 @@
-// I'm on react-router branch!
-
-// 1.1
-
-
-
-
-
-
-
-
+// I'M ON THE react-router branch!
+// New code on react-router branch
+// new code being written
 import { useState, useEffect } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
 
+
+// react router stuff
+import { Routes, Route, useNavigate } from 'react-router'
+
+import Header from './components/Header/Header'
 import PetList from './components/PetList/PetList'
 import PetForm from './components/PetForm/PetForm'
 import PetDetail from './components/PetDetail/PetDetail'
@@ -22,8 +21,9 @@ import * as petService from './services/petService'
 
 function App() {
   const [pets, setPets] = useState([])
-  const [isFormOpen, setIsFormOpen] = useState(false)
-  const [selectedPet, setSelectedPet] = useState(null); // will be an {}
+
+  // navigate is a function that we can pass
+  // a route path to
 
   useEffect(() => {
 
@@ -63,12 +63,12 @@ function App() {
     }
   }
 
-  async function deletePet(petIdFromPetDetails){
+  async function deletePet(petIdFromPetDetails) {
     try {
       const response = await petService.deletePet(petIdFromPetDetails)
 
       // one way to handle an error from the response
-      if(response.err){
+      if (response.err) {
         // this forces the err to go to the catch block, the arugment to new Error 
         // will be the value of err in the catch block
         throw new Error(response.err)
@@ -80,29 +80,22 @@ function App() {
       })
       // update state with the filtered array
       setPets(filteredPetsArray) // remove from the pet array
-      setSelectedPet(null) // remove the pet from the selectedPet state
-
-    } catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
 
-  function handleFormOpen(){
-    setIsFormOpen(!isFormOpen)
-  }
 
-  const buttonTextForForm = isFormOpen ? 'close form' : 'New Pet';
 
   return (
     <div className='App'>
-      <PetList setSelectedPet={setSelectedPet} pets={pets} handleFormOpen={handleFormOpen} buttonTextForForm={buttonTextForForm}/>
-      
-      {selectedPet ?  <PetDetail deletePet={deletePet} selectedPet={selectedPet} setSelectedPet={setSelectedPet}/> : null}
-     
-      {isFormOpen ? <PetForm createPet={createPet} /> : null}
-      
-      
-      
+      <Header />
+      <Routes>
+        <Route path='/' element={<PetList  pets={pets} />} />
+        <Route path='/pets/:petId' element={<PetDetail deletePet={deletePet} pets={pets}/>} />
+        <Route path='/pets/new' element={<PetForm createPet={createPet} />} />
+        <Route path="*" element={<h1>Nothing Here!</h1>} />
+      </Routes>
     </div>
   )
 }
